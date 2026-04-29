@@ -297,7 +297,7 @@ const CardDetailsPage = () => {
                 <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto border-2 border-dashed border-slate-100">
                     <Receipt size={35} className="text-slate-200" />
                 </div>
-                <p className="text-slate-400 font-bold italic">Bu dönemde bir işlem bulunamadı kanka.</p>
+                <p className="text-slate-400 font-bold italic">Bu dönemde bir işlem bulunamadı.</p>
             </div>
           )}
         </div>
