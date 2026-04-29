@@ -47,7 +47,7 @@ const CardDetailsPage = () => {
   const fetchStatement = async () => {
     setLoading(true);
     try {
-      let url = `/Transaction/card-statement/${id}`;
+      let url = `/api/Transaction/card-statement/${id}`;
       if (selectedMonth !== '' && selectedYear !== '') {
         url += `?month=${selectedMonth}&year=${selectedYear}`;
       }
@@ -71,7 +71,7 @@ const CardDetailsPage = () => {
   const handleDelete = async (expenseId: number) => {
     if (!window.confirm("Bu işlemi silmek istediğine emin misin?")) return;
     try {
-      await axiosInstance.delete(`/Transaction/expense/${expenseId}`);
+      await axiosInstance.delete(`/api/Transaction/expense/${expenseId}`);
       fetchStatement();
     } catch (error) {
       alert("Silme işlemi başarısız.");
