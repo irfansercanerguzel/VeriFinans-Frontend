@@ -14,7 +14,7 @@ import bonusImg from '../assets/Denizemekli.png';
 import troyImg from '../assets/Deniztroy.png';
 import worldImg from '../assets/world.jfif';
 import maximumImg from '../assets/maximum.jfif';
-import fenerImg from '../assets/fener.png';
+import fenerImg from '../assets/Fener.png';
 
 const CardDetailsPage = () => {
   const { id } = useParams();
