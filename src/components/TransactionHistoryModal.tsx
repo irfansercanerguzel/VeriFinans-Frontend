@@ -50,7 +50,7 @@ const TransactionHistoryModal: React.FC<TransactionHistoryModalProps> = ({ isOpe
     if (!window.confirm("Bu otomatik talimatı iptal edip silmek istediğinize emin misiniz?")) return;
     
     try {
-      await axiosInstance.delete(`/Transaction/${type}/${id}`);
+      await axiosInstance.delete(`/api/Transaction/${type}/${id}`);
       fetchOrders(); // Listeyi yenile
       onSuccess(); // Dashboard'u yenile
     } catch (error) {

@@ -28,7 +28,7 @@ const EditCardModal: React.FC<EditCardModalProps> = ({ isOpen, onClose, card, on
   const handleUpdate = async () => {
     setLoading(true);
     try {
-      await axiosInstance.put(`/api/CreditCard/${card.id}`, {
+      await axiosInstance.put(`/CreditCard/${card.id}`, {
         cardName,
         closingDay: parseInt(closingDay.toString())
       });

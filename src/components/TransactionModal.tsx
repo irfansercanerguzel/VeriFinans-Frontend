@@ -124,7 +124,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
   }, [lvl1Id]);
 
   useEffect(() => {
-    if (lvl2Id) axiosInstance.get(`/Category/sub/${lvl2Id}`).then(res => { setLvl3List(res.data); setLvl3Id(''); });
+    if (lvl2Id) axiosInstance.get(`/api/Category/sub/${lvl2Id}`).then(res => { setLvl3List(res.data); setLvl3Id(''); });
   }, [lvl2Id]);
 
   // --- MANUEL KAYIT ---
@@ -203,7 +203,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
       formData.append('type', isIncome ? '0' : '1');
       if (selectedCardId !== 'cash') formData.append('creditCardId', selectedCardId);
 
-      await axiosInstance.post('/Transaction/ai-parse-file', formData, {
+      await axiosInstance.post('/api/Transaction/ai-parse-file', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

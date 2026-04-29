@@ -63,7 +63,7 @@ const CardDetailsPage = () => {
 
   useEffect(() => {
     fetchStatement();
-    axiosInstance.get('/Category/main?type=1')
+    axiosInstance.get('/api/Category/main?type=1')
       .then(res => setExpenseCategories(res.data))
       .catch(err => console.error("Kategoriler çekilemedi", err));
   }, [id, selectedMonth, selectedYear]);
@@ -87,7 +87,7 @@ const CardDetailsPage = () => {
 
   const saveEdit = async (item: any) => {
     try {
-      await axiosInstance.put(`/Transaction/expense/${item.id}`, {
+      await axiosInstance.put(`/api/Transaction/expense/${item.id}`, {
         amount: parseFloat(editAmount),
         description: editDesc,
         categoryId: parseInt(editCategoryId),
