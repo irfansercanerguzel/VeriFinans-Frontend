@@ -34,7 +34,7 @@ const LoginPage = () => {
     try {
       if (isLogin) {
         // --- "Beni Hatırla" bilgisini Backend'e gönderiyoruz ---
-        const response = await axiosInstance.post('/Auth/login', { 
+        const response = await axiosInstance.post('/api/Auth/login', { 
           email, 
           password,
           rememberMe // Backend bunu okuyup Token süresini 1 yıl yapacak
@@ -46,7 +46,7 @@ const LoginPage = () => {
         console.log("Giriş başarılı. Oturum kalıcılığı:", rememberMe ? "1 Yıl" : "2 Saat"); 
       } else {
         // Kayıt olma işlemi
-        await axiosInstance.post('/Auth/register', { 
+        await axiosInstance.post('/api/Auth/register', { 
           name: fullName, 
           email, 
           password 
