@@ -37,7 +37,7 @@ const AnalysisPage: React.FC = () => {
   const fetchDeepAnalysis = useCallback(async () => {
     setLoading(true);
     try {
-      let url = `/Analysis/detailed?accountId=${accountId === null ? '' : accountId}`;
+      let url = `/api/Analysis/detailed?accountId=${accountId === null ? '' : accountId}`;
       
       // SADECE kullanıcı özel bir filtreye tıkladıysa parametre yolla
       if (filterMode === 'month') {
