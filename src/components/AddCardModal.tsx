@@ -19,7 +19,7 @@ const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, onClose, onSuccess 
     e.preventDefault();
     setLoading(true);
     try {
-      await axiosInstance.post('/CreditCard', {
+      await axiosInstance.post('/api/CreditCard', {
         cardName,
         closingDay: parseInt(closingDay)
       });
