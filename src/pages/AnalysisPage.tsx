@@ -291,7 +291,7 @@ const AnalysisPage: React.FC = () => {
                     nameKey="categoryName"
                     stroke="none"
                   >
-                    {(analysisData?.categoryBreakdown || []).map((entry: any, index: number) => (
+                    {(analysisData?.categoryBreakdown || []).map((_entry: any, index: number) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} className="hover:opacity-80 transition-opacity outline-none" />
                     ))}
                   </Pie>
