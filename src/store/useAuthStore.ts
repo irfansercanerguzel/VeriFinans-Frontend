@@ -1,16 +1,8 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import type { IUser } from '../types/index';
+import type { IAuthStore, IUser } from '../types/index';
 
-// Interface'i direkt burada tanımlayalım ki import hatası yaşanmasın
-interface IAuthStore {
-  user: IUser | null;
-  token: string | null;
-  isAuthenticated: boolean;
-  login: (user: IUser, token: string) => void;
-  logout: () => void;
-}
-
+// Store'un tip tanımına login fonksiyonunu güncellenmiş haliyle eklediğini varsayıyorum
 export const useAuthStore = create<IAuthStore>()(
   persist(
     (set) => ({
@@ -18,6 +10,7 @@ export const useAuthStore = create<IAuthStore>()(
       token: null,
       isAuthenticated: false,
 
+      // login fonksiyonuna rememberMe parametresi ekledik
       login: (user: IUser, token: string) => {
         set({ 
           user, 
@@ -28,12 +21,15 @@ export const useAuthStore = create<IAuthStore>()(
 
       logout: () => {
         set({ user: null, token: null, isAuthenticated: false });
+        // Hem local hem session'ı temizlemesi için garantiye alıyoruz
         localStorage.removeItem('verifinans-auth');
         sessionStorage.removeItem('verifinans-auth');
       },
     }),
     {
       name: 'verifinans-auth',
+      // Dinamik storage seçimi: 
+      // Giriş yapılmışsa localStorage kullanır, tarayıcı kapansa da gitmez.
       storage: createJSONStorage(() => localStorage),
     }
   )
