@@ -78,7 +78,7 @@ const DashboardPage: React.FC = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await axiosInstance.get('/Dashboard/summary');
+      const response = await axiosInstance.get('/api/Dashboard/summary');
       setSummaryData(response.data);
     } catch (error) {
       console.error("Veri yükleme hatası:", error);
@@ -143,7 +143,7 @@ const DashboardPage: React.FC = () => {
     if (!paymentAmount || parseFloat(paymentAmount) <= 0) return alert("Geçerli bir tutar girin.");
     
     try {
-      await axiosInstance.post('/CreditCard/pay', {
+      await axiosInstance.post('/api/CreditCard/pay', {
         cardId: paymentCard.id,
         amount: parseFloat(paymentAmount)
       });

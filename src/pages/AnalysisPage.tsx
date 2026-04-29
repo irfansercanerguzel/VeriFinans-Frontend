@@ -31,7 +31,7 @@ const AnalysisPage: React.FC = () => {
   const [expandedTags, setExpandedTags] = useState<string[]>([]);
 
   useEffect(() => {
-    axiosInstance.get('/CreditCard').then(res => setCards(res.data)).catch(err => console.log(err));
+    axiosInstance.get('/api/CreditCard').then(res => setCards(res.data)).catch(err => console.log(err));
   }, []);
 
   const fetchDeepAnalysis = useCallback(async () => {

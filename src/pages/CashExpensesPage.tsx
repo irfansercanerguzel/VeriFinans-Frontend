@@ -26,7 +26,7 @@ const CashExpensesPage: React.FC = () => {
   const fetchCashExpenses = async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.get('/Transaction/cash-expenses');
+      const res = await axiosInstance.get('/api/Transaction/cash-expenses');
       setExpenses(res.data);
     } catch (err) {
       console.error("Nakit harcamalar yüklenemedi", err);
@@ -42,7 +42,7 @@ const CashExpensesPage: React.FC = () => {
   const handleDelete = async (id: number) => {
     if (!window.confirm("Bu harcamayı silmek istediğine emin misin?")) return;
     try {
-      await axiosInstance.delete(`/Transaction/expense/${id}`);
+      await axiosInstance.delete(`/api/Transaction/expense/${id}`);
       setExpenses(prev => prev.filter(e => e.id !== id));
     } catch (error) {
       alert("Silme işlemi başarısız.");
