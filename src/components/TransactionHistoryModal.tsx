@@ -20,7 +20,7 @@ const TransactionHistoryModal: React.FC<TransactionHistoryModalProps> = ({ isOpe
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const endpoint = type === 'income' ? '/Transaction/recurring-incomes' : '/Transaction/recurring-expenses';
+      const endpoint = type === 'income' ? '/api/Transaction/recurring-incomes' : '/api/Transaction/recurring-expenses';
       const response = await axiosInstance.get(endpoint);
       setOrders(response.data);
     } catch (error) {
@@ -62,7 +62,7 @@ const TransactionHistoryModal: React.FC<TransactionHistoryModalProps> = ({ isOpe
   const handleSave = async (id: number) => {
     setSaving(true);
     try {
-      const endpoint = type === 'income' ? `/Transaction/income/${id}` : `/Transaction/expense/${id}`;
+      const endpoint = type === 'income' ? `/api/Transaction/income/${id}` : `/api/Transaction/expense/${id}`;
       
       await axiosInstance.put(endpoint, {
         amount: parseFloat(editForm.amount.toString()),

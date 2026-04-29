@@ -42,7 +42,7 @@ const QuickCategoryModal: React.FC<QuickCategoryModalProps> = ({ isOpen, onClose
 
     setLoading(true);
     try {
-      await axiosInstance.post('/Category/chain', {
+      await axiosInstance.post('/api/Category/chain', {
         names: validNames,
         type: isIncome ? 0 : 1
       });

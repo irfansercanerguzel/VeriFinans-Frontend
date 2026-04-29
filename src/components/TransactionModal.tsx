@@ -110,17 +110,17 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
       setLvl2List([]); setLvl3List([]);
 
       Promise.all([
-        axiosInstance.get(`/Category/main?type=${typeParam}`),
+        axiosInstance.get(`/api/Category/main?type=${typeParam}`),
         axiosInstance.get('/CreditCard')
       ]).then(([catRes, cardRes]) => {
         setLvl1List(catRes.data);
         setUserCards(cardRes.data);
-      }).catch(err => setErrorMessage("Veriler yüklenirken sorun oluştu."));
+      }).catch(_err => setErrorMessage("Veriler yüklenirken sorun oluştu."));
     }
   }, [isOpen, isIncome, editItem]);
 
   useEffect(() => {
-    if (lvl1Id) axiosInstance.get(`/Category/sub/${lvl1Id}`).then(res => { setLvl2List(res.data); setLvl2Id(''); setLvl3List([]); setLvl3Id(''); });
+    if (lvl1Id) axiosInstance.get(`/api/Category/sub/${lvl1Id}`).then(res => { setLvl2List(res.data); setLvl2Id(''); setLvl3List([]); setLvl3Id(''); });
   }, [lvl1Id]);
 
   useEffect(() => {
@@ -151,8 +151,8 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
         isRecurring: isRecurring
       };
 
-      if (editItem) await axiosInstance.put(`/Transaction/${type}/${editItem.id}`, payload);
-      else await axiosInstance.post(isIncome ? '/Transaction/income' : '/Transaction/expense', payload);
+      if (editItem) await axiosInstance.put(`/api/Transaction/${type}/${editItem.id}`, payload);
+      else await axiosInstance.post(isIncome ? '/api/Transaction/income' : '/api/Transaction/expense', payload);
       
       // KANKA BAKIYORUZ: Başarılı olunca kartı ve tarihi hafızaya kazı!
       if (!editItem) {
@@ -443,7 +443,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
       
       <QuickCategoryModal isOpen={isQuickCategoryOpen} onClose={() => setIsQuickCategoryOpen(false)} type={type} onSuccess={() => {
         const typeParam = isIncome ? 0 : 1;
-        axiosInstance.get(`/Category/main?type=${typeParam}`).then(res => setLvl1List(res.data));
+        axiosInstance.get(`/api/Category/main?type=${typeParam}`).then(res => setLvl1List(res.data));
       }} />
     </>
   );

@@ -27,7 +27,7 @@ const IncomeDetailsModal: React.FC<IncomeDetailsModalProps> = ({ isOpen, onClose
     setLoading(true);
     try {
       const response = await axiosInstance.get(
-        `/Transaction/income-report?month=${selectedMonth}&year=${selectedYear}`
+        `/api/Transaction/income-report?month=${selectedMonth}&year=${selectedYear}`
       );
       setIncomes(response.data);
       setEditId(null);
@@ -42,7 +42,7 @@ const IncomeDetailsModal: React.FC<IncomeDetailsModalProps> = ({ isOpen, onClose
     if (isOpen) {
       fetchIncomeReport();
       // Modal açıldığında ana gelir kategorilerini de çekiyoruz ki dropdown dolsun
-      axiosInstance.get('/Category/main?type=0')
+      axiosInstance.get('/api/Category/main?type=0')
         .then(res => setIncomeCategories(res.data))
         .catch(err => console.error("Kategoriler çekilemedi:", err));
     }
@@ -78,7 +78,7 @@ const IncomeDetailsModal: React.FC<IncomeDetailsModalProps> = ({ isOpen, onClose
     }
 
     try {
-      await axiosInstance.put(`/Transaction/income/${item.id}`, {
+      await axiosInstance.put(`/api/Transaction/income/${item.id}`, {
         amount: parseFloat(editAmount),
         description: editDesc,
         categoryId: parseInt(editCategoryId),

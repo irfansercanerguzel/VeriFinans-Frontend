@@ -63,7 +63,7 @@ const FloatingAiBot: React.FC<AiBotProps> = ({ pageContext = 'global', pageData 
         dataJson: dataToSend // Kesin string olarak yolladık
       };
 
-      const response = await axiosInstance.post('/Ai/analyze', payload);
+      const response = await axiosInstance.post('/api/Ai/analyze', payload);
       
       const aiResponse = response.data?.message || 'Analiz işlemi tamamlandı.';
       setMessages(prev => [...prev, { role: 'ai', content: aiResponse }]);

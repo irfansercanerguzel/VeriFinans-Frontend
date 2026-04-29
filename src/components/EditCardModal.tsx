@@ -28,7 +28,7 @@ const EditCardModal: React.FC<EditCardModalProps> = ({ isOpen, onClose, card, on
   const handleUpdate = async () => {
     setLoading(true);
     try {
-      await axiosInstance.put(`/CreditCard/${card.id}`, {
+      await axiosInstance.put(`/api/CreditCard/${card.id}`, {
         cardName,
         closingDay: parseInt(closingDay.toString())
       });
@@ -49,7 +49,7 @@ const EditCardModal: React.FC<EditCardModalProps> = ({ isOpen, onClose, card, on
 
     setDeleteLoading(true);
     try {
-      await axiosInstance.delete(`/CreditCard/${card.id}`);
+      await axiosInstance.delete(`/api/CreditCard/${card.id}`);
       onSuccess(); // Dashboard'u yenile
       onClose();   // Modalı kapat
     } catch (error) {
