@@ -111,7 +111,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
 
       Promise.all([
         axiosInstance.get(`/api/Category/main?type=${typeParam}`),
-        axiosInstance.get('/CreditCard')
+        axiosInstance.get('/api/CreditCard')
       ]).then(([catRes, cardRes]) => {
         setLvl1List(catRes.data);
         setUserCards(cardRes.data);
