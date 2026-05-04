@@ -226,7 +226,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
 
   return (
     <>
-      <div className="fixed inset-0 z-[150] flex items-end md:items-center justify-center bg-slate-900/70 backdrop-blur-md p-4">
+      <div className="fixed inset-0 z-[150] flex items-end md:items-center justify-center bg-slate-900/70 backdrop-blur-md p-2 sm:p-4">
         {showToast && (
           <div className="fixed top-10 left-1/2 -translate-x-1/2 z-[200] bg-emerald-600 text-white px-8 py-4 rounded-full shadow-2xl flex items-center gap-3 animate-bounce border-2 border-white">
             <CheckCircle2 size={24} />
@@ -236,34 +236,36 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
           </div>
         )}
 
-        <div className="bg-white w-full max-w-md rounded-[3.5rem] shadow-2xl overflow-hidden relative border-4 border-white max-h-[95vh] flex flex-col animate-in fade-in zoom-in duration-300">
-          <button onClick={onClose} className="absolute top-8 right-8 p-2 text-slate-300 hover:text-rose-500 transition-colors z-20"><X size={28} /></button>
+        {/* KANKA DİKKAT: max-h-[90dvh] yaptık ve mobilde kenar boşluklarını daralttık */}
+        <div className="bg-white w-full max-w-md rounded-[2.5rem] md:rounded-[3.5rem] shadow-2xl overflow-hidden relative border-4 border-white max-h-[90dvh] flex flex-col animate-in fade-in zoom-in duration-300">
+          <button onClick={onClose} className="absolute top-6 right-6 p-2 text-slate-300 hover:text-rose-500 transition-colors z-20"><X size={28} /></button>
 
-          <div className="p-8 pb-4 border-b border-slate-50">
-            <div className="flex justify-between items-center pr-12">
+          {/* Mobilde p-5, bilgisayarda p-8 */}
+          <div className="p-5 md:p-8 pb-4 border-b border-slate-50 shrink-0">
+            <div className="flex justify-between items-center pr-10">
               <div className="space-y-1">
-                <h2 className={`text-2xl font-black ${isIncome ? 'text-emerald-600' : 'text-rose-600'}`}>{modalTitle}</h2>
-                <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">{editItem ? 'Kaydı Güncelle' : 'Harcama Detayları'}</p>
+                <h2 className={`text-xl md:text-2xl font-black ${isIncome ? 'text-emerald-600' : 'text-rose-600'}`}>{modalTitle}</h2>
+                <p className="text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-widest">{editItem ? 'Kaydı Güncelle' : 'Harcama Detayları'}</p>
               </div>
               {!editItem && entryMode === 'manual' && (
-                <button type="button" onClick={() => { onClose(); onOpenHistory(type); }} className="text-[10px] font-black text-slate-500 hover:text-blue-600 bg-slate-100 hover:bg-blue-50 py-2 px-4 rounded-xl transition-all flex items-center gap-2">
+                <button type="button" onClick={() => { onClose(); onOpenHistory(type); }} className="text-[10px] font-black text-slate-500 hover:text-blue-600 bg-slate-100 hover:bg-blue-50 py-2 px-3 rounded-xl transition-all flex items-center gap-1.5 shrink-0">
                   <Settings2 size={14} /> LİSTE
                 </button>
               )}
             </div>
 
-            {/* TAB MENÜSÜ (KANKA BAKIYORUZ: GELİR EKRANINDA AI SEKMESİ KALKTI!) */}
+            {/* TAB MENÜSÜ */}
             {!editItem && !isIncome && (
-              <div className="flex bg-slate-100 p-1.5 rounded-2xl mt-6">
+              <div className="flex bg-slate-100 p-1.5 rounded-2xl mt-5">
                 <button 
                   onClick={() => setEntryMode('manual')}
-                  className={`flex-1 py-2 text-[11px] font-black uppercase tracking-widest rounded-xl transition-all ${entryMode === 'manual' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                  className={`flex-1 py-2 text-[10px] sm:text-[11px] font-black uppercase tracking-widest rounded-xl transition-all ${entryMode === 'manual' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                 >
                   Elle Gir
                 </button>
                 <button 
                   onClick={() => setEntryMode('ai')}
-                  className={`flex-1 py-2 text-[11px] font-black uppercase tracking-widest rounded-xl transition-all flex items-center justify-center gap-1.5 ${entryMode === 'ai' ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-600'}`}
+                  className={`flex-1 py-2 text-[10px] sm:text-[11px] font-black uppercase tracking-widest rounded-xl transition-all flex items-center justify-center gap-1.5 ${entryMode === 'ai' ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-600'}`}
                 >
                   <Sparkles size={14} /> Yapay Zeka
                 </button>
@@ -271,7 +273,8 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
             )}
           </div>
 
-          <div className="p-8 pt-4 overflow-y-auto custom-scrollbar">
+          {/* KANKA DİKKAT: flex-1 ekledik ki scroll düzgün çalışsın */}
+          <div className="flex-1 p-5 md:p-8 pt-4 overflow-y-auto custom-scrollbar">
             {errorMessage && (
               <div className="bg-rose-50 border-l-4 border-rose-500 p-4 rounded-2xl flex items-center gap-3 mb-6">
                 <AlertCircle className="text-rose-500 shrink-0" size={20} />
@@ -279,11 +282,11 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
               </div>
             )}
 
-            {/* === YAPAY ZEKA MODU (AI TAB) === */}
+            {/* === YAPAY ZEKA MODU === */}
             {entryMode === 'ai' && (
-              <div className="space-y-6 animate-in slide-in-from-right-4">
+              <div className="space-y-6 animate-in slide-in-from-right-4 pb-4">
                 <div className="bg-violet-50 p-4 rounded-3xl border border-violet-100 flex gap-3">
-                  <div className="bg-violet-200 text-violet-700 p-2 rounded-xl h-fit"><Wand2 size={20} /></div>
+                  <div className="bg-violet-200 text-violet-700 p-2 rounded-xl h-fit shrink-0"><Wand2 size={20} /></div>
                   <p className="text-xs font-bold text-violet-800 leading-relaxed">
                     Ekstrenizin <b>PDF</b> dosyasını veya <b>Ekran Görüntüsünü</b> yükleyin. Yapay Zeka sizin için çözer ve eski kayıtlarla karşılaştırarak ekler.
                   </p>
@@ -292,24 +295,22 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
                 {!isIncome && (
                   <div className="space-y-2">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Bu Ekstre Hangi Karta Ait?</label>
-                    <select value={selectedCardId} onChange={(e) => setSelectedCardId(e.target.value)} className="w-full p-4 bg-slate-50 border-2 border-slate-100 focus:border-violet-500 rounded-2xl font-bold appearance-none outline-none">
-                      <option value="cash">💵 Nakit / Cüzdan (Sadece Fiş/Fatura is)</option>
+                    <select value={selectedCardId} onChange={(e) => setSelectedCardId(e.target.value)} className="w-full p-4 bg-slate-50 border-2 border-slate-100 focus:border-violet-500 rounded-2xl font-bold appearance-none outline-none text-sm">
+                      <option value="cash">💵 Nakit / Cüzdan (Sadece Fiş/Fatura)</option>
                       {userCards.map((card: any) => <option key={card.id} value={card.id}>💳 {card.cardName}</option>)}
                     </select>
                   </div>
                 )}
 
-                {/* DOSYA YÜKLEME ALANI */}
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Ekstre Dosyası (PDF/PNG/JPG)</label>
-                  
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Ekstre Dosyası</label>
                   {aiFile ? (
                     <div className="flex items-center justify-between p-4 bg-emerald-50 border-2 border-emerald-200 rounded-3xl">
                       <div className="flex items-center gap-3 overflow-hidden">
                         {aiFile.type.includes('pdf') ? <FileText className="text-emerald-500 shrink-0" /> : <ImageIcon className="text-emerald-500 shrink-0" />}
                         <span className="text-sm font-bold text-emerald-800 truncate">{aiFile.name}</span>
                       </div>
-                      <button onClick={() => setAiFile(null)} className="text-emerald-400 hover:text-rose-500 transition-colors">
+                      <button onClick={() => setAiFile(null)} className="text-emerald-400 hover:text-rose-500 transition-colors shrink-0 ml-2">
                         <XCircle size={20} />
                       </button>
                     </div>
@@ -321,14 +322,10 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
                       <div className="p-3 bg-violet-100 text-violet-600 rounded-full group-hover:scale-110 transition-transform">
                         <UploadCloud size={24} />
                       </div>
-                      <p className="text-xs font-black text-violet-600 tracking-wide uppercase">Tıkla ve Dosya Seç</p>
-                      <p className="text-[10px] font-bold text-violet-400">veya sürükleyip bırakabilirsin</p>
+                      <p className="text-xs font-black text-violet-600 tracking-wide uppercase">Tıkla ve Seç</p>
+                      <p className="text-[10px] font-bold text-violet-400">veya sürükle bırak</p>
                       <input 
-                        type="file" 
-                        className="hidden" 
-                        ref={fileInputRef} 
-                        onChange={handleFileChange}
-                        accept=".pdf, .png, .jpg, .jpeg"
+                        type="file" className="hidden" ref={fileInputRef} onChange={handleFileChange} accept=".pdf, .png, .jpg, .jpeg"
                       />
                     </div>
                   )}
@@ -337,34 +334,33 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
                 <button 
                   onClick={handleAiSubmit} 
                   disabled={isAiProcessing || (!aiText.trim() && !aiFile)} 
-                  className="w-full py-6 rounded-[2.5rem] bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-black text-xl shadow-xl shadow-violet-200 flex items-center justify-center gap-3 transition-all active:scale-95 disabled:opacity-50"
+                  className="w-full py-5 sm:py-6 rounded-[2.5rem] bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-black text-lg sm:text-xl shadow-xl shadow-violet-200 flex items-center justify-center gap-3 transition-all active:scale-95 disabled:opacity-50"
                 >
-                  {isAiProcessing ? <Loader2 className="animate-spin" /> : <Sparkles size={28} />}
-                  {isAiProcessing ? 'YAPAY ZEKA ÇÖZÜMLÜYOR...' : 'YAPAY ZEKA İLE YÜKLE'}
+                  {isAiProcessing ? <Loader2 className="animate-spin" /> : <Sparkles size={24} />}
+                  {isAiProcessing ? 'ÇÖZÜMLÜYOR...' : 'YAPAY ZEKA YÜKLE'}
                 </button>
               </div>
             )}
 
-            {/* === ELLE GİRİŞ MODU (MANUAL TAB) === */}
+            {/* === ELLE GİRİŞ MODU === */}
             {entryMode === 'manual' && (
-              <form onSubmit={handleSubmit} className="space-y-6 animate-in slide-in-from-left-4">
+              <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6 animate-in slide-in-from-left-4 pb-4">
                 
-                {/* 1. ADIM: HANGİ KARTTAN? (Sadece Giderse) */}
                 {!isIncome && (
-                  <div className="bg-slate-50 p-5 rounded-[2rem] border-2 border-slate-100">
+                  <div className="bg-slate-50 p-4 sm:p-5 rounded-[2rem] border-2 border-slate-100">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 mb-2 block">Nasıl Ödendi?</label>
                     <div className="relative">
-                      <select value={selectedCardId} onChange={(e) => setSelectedCardId(e.target.value)} className="w-full p-4 bg-white border border-slate-200 focus:border-rose-500 rounded-2xl font-bold text-lg appearance-none outline-none cursor-pointer shadow-sm">
+                      <select value={selectedCardId} onChange={(e) => setSelectedCardId(e.target.value)} className="w-full p-4 bg-white border border-slate-200 focus:border-rose-500 rounded-2xl font-bold text-sm sm:text-lg appearance-none outline-none cursor-pointer shadow-sm">
                         <option value="cash">💵 Nakit / Cüzdan</option>
                         {userCards.map((card: any) => <option key={card.id} value={card.id}>💳 {card.cardName}</option>)}
                       </select>
-                      <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={20} />
+                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={20} />
                     </div>
 
                     {selectedCardId !== 'cash' && (
                       <div className="mt-3 flex items-center justify-between bg-orange-50/50 p-3 rounded-xl border border-orange-100">
-                        <span className="text-xs font-black text-orange-600 uppercase">Taksit:</span>
-                        <select value={installmentCount} onChange={(e) => setInstallmentCount(parseInt(e.target.value))} className="bg-transparent font-black text-orange-700 outline-none text-right cursor-pointer">
+                        <span className="text-[10px] sm:text-xs font-black text-orange-600 uppercase">Taksit:</span>
+                        <select value={installmentCount} onChange={(e) => setInstallmentCount(parseInt(e.target.value))} className="bg-transparent font-black text-sm text-orange-700 outline-none text-right cursor-pointer">
                           <option value={1}>Tek Çekim</option>
                           {[2,3,4,5,6,9,12].map(n => <option key={n} value={n}>{n} Taksit</option>)}
                         </select>
@@ -373,17 +369,16 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
                   </div>
                 )}
 
-                {/* 2. ADIM: NE KADAR? */}
-                <div className={`relative p-6 rounded-[2.5rem] border-4 transition-all ${isIncome ? 'border-emerald-100 bg-emerald-50/30' : 'border-rose-100 bg-rose-50/30'}`}>
+                <div className={`relative p-5 sm:p-6 rounded-[2.5rem] border-4 transition-all ${isIncome ? 'border-emerald-100 bg-emerald-50/30' : 'border-rose-100 bg-rose-50/30'}`}>
                   <label className={`absolute -top-3 left-6 px-2 bg-white text-[10px] font-black uppercase tracking-widest ${isIncome ? 'text-emerald-500' : 'text-rose-500'}`}>Tutar</label>
                   <div className="flex items-center justify-center gap-2">
-                    <span className={`text-4xl font-black ${isIncome ? 'text-emerald-400' : 'text-rose-400'}`}>₺</span>
-                    <input ref={amountRef} type="number" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} className="w-full text-5xl font-black text-center bg-transparent outline-none text-slate-800 placeholder:text-slate-200" placeholder="0.00" />
+                    <span className={`text-3xl sm:text-4xl font-black ${isIncome ? 'text-emerald-400' : 'text-rose-400'}`}>₺</span>
+                    <input ref={amountRef} type="number" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} className="w-full text-4xl sm:text-5xl font-black text-center bg-transparent outline-none text-slate-800 placeholder:text-slate-200" placeholder="0.00" />
                   </div>
                 </div>
 
-                {/* 3. ADIM: NE ZAMAN VE KATEGORİ */}
-                <div className="grid grid-cols-2 gap-4">
+                {/* KANKA DİKKAT: grid-cols-1 sm:grid-cols-2 yaptık. Mobilde alt alta, PC'de yan yana duracaklar */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-2">Tarih</label>
                     <input type="date" value={transactionDate} onChange={(e) => setTransactionDate(e.target.value)} className="w-full p-4 bg-slate-50 border-2 border-slate-100 focus:border-blue-500 rounded-2xl font-bold outline-none text-slate-700 cursor-pointer text-sm" />
@@ -392,7 +387,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
                   <div className="space-y-1">
                     <div className="flex justify-between items-center px-2">
                       <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Kategori</label>
-                      <button type="button" onClick={() => setIsQuickCategoryOpen(true)} className="text-[9px] font-black text-blue-600"><Plus size={12} /></button>
+                      <button type="button" onClick={() => setIsQuickCategoryOpen(true)} className="text-[9px] font-black text-blue-600 flex items-center"><Plus size={12} /> Ekle</button>
                     </div>
                     <select value={lvl1Id} onChange={(e) => setLvl1Id(e.target.value)} className="w-full p-4 bg-slate-50 border-2 border-slate-100 focus:border-blue-500 rounded-2xl font-bold appearance-none cursor-pointer outline-none text-sm text-slate-700 truncate">
                       <option value="">Seçiniz</option>
@@ -401,8 +396,8 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
                   </div>
                 </div>
 
-                {/* ALT KATEGORİLER (Sadece lvl1 seçilirse açılır) */}
-                <div className="flex gap-4">
+                {/* KANKA DİKKAT: flex-col sm:flex-row yaptık. Mobilde alt alta taşmadan sığacaklar */}
+                <div className="flex flex-col sm:flex-row gap-4">
                   {lvl2List.length > 0 && (
                     <select value={lvl2Id} onChange={(e) => setLvl2Id(e.target.value)} className="w-full p-3 bg-blue-50/50 border-2 border-blue-100 rounded-xl font-bold text-sm text-blue-900 appearance-none outline-none cursor-pointer truncate animate-in fade-in">
                       <option value="">Alt Kategori</option>
@@ -417,22 +412,21 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
                   )}
                 </div>
 
-                {/* 4. ADIM: AÇIKLAMA & OTOMATİK TEKRAR */}
                 <div className="space-y-4 pt-2">
-                  <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} className="w-full p-4 bg-slate-50 border-2 border-slate-100 focus:border-blue-500 rounded-2xl font-medium outline-none transition-all text-sm" placeholder="Not ekleyin (Örn: Haftalık Pazar Alışverişi)" />
+                  <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} className="w-full p-4 bg-slate-50 border-2 border-slate-100 focus:border-blue-500 rounded-2xl font-medium outline-none transition-all text-sm" placeholder="Not ekleyin (Örn: Pazar Alışverişi)" />
 
                   <div className="p-4 bg-blue-50/50 border border-blue-100 rounded-2xl flex items-center justify-between cursor-pointer group transition-all" onClick={() => setIsRecurring(!isRecurring)}>
                     <div>
                       <p className="text-xs font-black text-blue-900 group-hover:text-blue-700">Her Ay Otomatik Tekrarla 🔄</p>
                     </div>
-                    <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${isRecurring ? 'bg-blue-600 border-blue-600' : 'bg-white border-blue-200'}`}>
+                    <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all shrink-0 ${isRecurring ? 'bg-blue-600 border-blue-600' : 'bg-white border-blue-200'}`}>
                       {isRecurring && <CheckCircle2 size={12} className="text-white" />}
                     </div>
                   </div>
                 </div>
 
-                <button type="submit" disabled={loading} className={`w-full py-6 rounded-[2.5rem] text-white font-black text-xl shadow-2xl flex items-center justify-center gap-3 transition-all active:scale-95 ${isIncome ? 'bg-emerald-600 shadow-emerald-200 hover:bg-emerald-700' : 'bg-rose-600 shadow-rose-200 hover:bg-rose-700'} disabled:opacity-50 mt-4`}>
-                  {loading ? <Loader2 className="animate-spin" /> : <Save size={28} />}
+                <button type="submit" disabled={loading} className={`w-full py-5 sm:py-6 rounded-[2.5rem] text-white font-black text-lg sm:text-xl shadow-2xl flex items-center justify-center gap-3 transition-all active:scale-95 ${isIncome ? 'bg-emerald-600 shadow-emerald-200 hover:bg-emerald-700' : 'bg-rose-600 shadow-rose-200 hover:bg-rose-700'} disabled:opacity-50 mt-4`}>
+                  {loading ? <Loader2 className="animate-spin" /> : <Save size={24} />}
                   {editItem ? 'GÜNCELLE' : (isIncome ? 'GELİRİ KAYDET' : 'GİDERİ KAYDET')}
                 </button>
               </form>

@@ -166,7 +166,7 @@ const DashboardPage: React.FC = () => {
     );
   }
 
-  return (
+ return (
     <div className="max-w-7xl mx-auto space-y-8 pb-32 relative pt-6 px-4">
       
       {/* 1. ÜST BÖLÜM: Header */}
@@ -268,7 +268,7 @@ const DashboardPage: React.FC = () => {
         <div className="lg:col-span-4 space-y-6">
           <div className="bg-white p-6 rounded-[3rem] shadow-sm border border-slate-100 flex flex-col gap-6">
             
-            {/* KANKA: İŞTE RENKLİ HARCAMA DAĞILIMI GRAFİĞİ */}
+            {/* RENKLİ HARCAMA DAĞILIMI GRAFİĞİ */}
             <div className="space-y-4">
               <h3 className="text-lg font-black text-slate-800 ml-2">Harcama Dağılımı</h3>
               <div className="w-full h-[220px]">
@@ -291,7 +291,6 @@ const DashboardPage: React.FC = () => {
                         {summaryData.chartData.map((entry: any, index: number) => (
                           <Cell 
                             key={`cell-${index}`} 
-                            // Backendden gelen rengi iptal ettik, tamamen gökkuşağı olacak!
                             fill={CHART_COLORS[index % CHART_COLORS.length]} 
                             className="hover:opacity-80 transition-opacity cursor-pointer"
                           />
@@ -501,12 +500,15 @@ const DashboardPage: React.FC = () => {
         </div>
       </div>
 
-      {/* --- STAT DETAY MODALI --- */}
+      {/* --- KANKA DİKKAT: STAT DETAY MODALI (SCROLL DÜZELTİLDİ) --- */}
       {statModalOpen && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-900/60 backdrop-blur-md p-4 animate-in fade-in">
-          <div className="bg-white w-full max-w-lg rounded-[3rem] shadow-2xl overflow-hidden relative border-4 border-slate-50 flex flex-col">
-            <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-              <h3 className="text-xl font-black text-slate-800">
+        <div className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center bg-slate-900/60 backdrop-blur-md p-2 sm:p-4 animate-in fade-in">
+          {/* max-h-[90dvh] eklendi */}
+          <div className="bg-white w-full max-w-lg rounded-[2.5rem] sm:rounded-[3rem] shadow-2xl overflow-hidden relative border-4 border-slate-50 flex flex-col max-h-[90dvh]">
+            
+            {/* Header: shrink-0 eklendi */}
+            <div className="p-5 sm:p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 shrink-0">
+              <h3 className="text-lg sm:text-xl font-black text-slate-800">
                 {statModalType === 'balance' && 'Nakit Bakiye Detayı'}
                 {statModalType === 'debt' && 'Kart Borçları Özeti'}
                 {statModalType === 'pending' && 'Bekleyen Ödemeler'}
@@ -517,69 +519,69 @@ const DashboardPage: React.FC = () => {
               </button>
             </div>
 
-            <div className="p-8 space-y-6">
+            {/* İçerik Alanı: flex-1 ve overflow-y-auto eklendi */}
+            <div className="p-5 sm:p-8 space-y-6 flex-1 overflow-y-auto custom-scrollbar">
+              
               {/* --- GENEL BAKİYE & ANALİZ SEKMESİ --- */}
-{statModalType === 'balance' && (
-  <div className="space-y-6 animate-in slide-in-from-bottom-4">
-    <div className="text-center mb-2">
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Genel Finansal Özet</p>
-    </div>
+              {statModalType === 'balance' && (
+                <div className="space-y-6 animate-in slide-in-from-bottom-4">
+                  <div className="text-center mb-2">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Genel Finansal Özet</p>
+                  </div>
 
-    <div className="p-8 bg-slate-50 rounded-[2.5rem] border-2 border-slate-100 shadow-inner relative overflow-hidden">
-      <div className="space-y-5 relative z-10">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></div>
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-tighter">Toplam Giderler (Nakit + Kart)</span>
-          </div>
-          <span className="font-black text-rose-600 text-lg">
-            ₺{(summaryData?.stats?.totalExpenseAllTime || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
-          </span>
-        </div>
+                  <div className="p-6 sm:p-8 bg-slate-50 rounded-[2.5rem] border-2 border-slate-100 shadow-inner relative overflow-hidden">
+                    <div className="space-y-5 relative z-10">
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></div>
+                          <span className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-tighter">Toplam Giderler (Nakit + Kart)</span>
+                        </div>
+                        <span className="font-black text-rose-600 text-base sm:text-lg">
+                          ₺{(summaryData?.stats?.totalExpenseAllTime || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
+                        </span>
+                      </div>
 
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-tighter">Toplam Gelirler</span>
-          </div>
-          <span className="font-black text-emerald-600 text-lg">
-            ₺{(summaryData?.stats?.totalIncomeAllTime || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
-          </span>
-        </div>
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+                          <span className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-tighter">Toplam Gelirler</span>
+                        </div>
+                        <span className="font-black text-emerald-600 text-base sm:text-lg">
+                          ₺{(summaryData?.stats?.totalIncomeAllTime || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
+                        </span>
+                      </div>
 
-        <div className="h-px bg-slate-200 w-full opacity-60"></div>
+                      <div className="h-px bg-slate-200 w-full opacity-60"></div>
 
-        <div className="flex justify-between items-end">
-          <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Net Finansal Akış</p>
-            {/* KANKA: netFlow >= 0 ise YEŞİL (Birikim), eksi ise KIRMIZI (Açık) */}
-            <p className={`text-3xl font-black tracking-tight ${summaryData?.stats?.netFlow >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
-              ₺{Math.abs(summaryData?.stats?.netFlow || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
-            </p>
-          </div>
-          {/* KANKA: Badge rengi ve metni de aynı mantıkla güncellendi */}
-          <div className={`px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest ${summaryData?.stats?.netFlow >= 0 ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'}`}>
-            {summaryData?.stats?.netFlow >= 0 ? 'Toplam Birikim' : 'Toplam Açık'}
-          </div>
-        </div>
-      </div>
-    </div>
+                      <div className="flex justify-between items-end flex-wrap gap-2">
+                        <div>
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Net Finansal Akış</p>
+                          <p className={`text-2xl sm:text-3xl font-black tracking-tight ${summaryData?.stats?.netFlow >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
+                            ₺{Math.abs(summaryData?.stats?.netFlow || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
+                          </p>
+                        </div>
+                        <div className={`px-4 py-2 rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest ${summaryData?.stats?.netFlow >= 0 ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'}`}>
+                          {summaryData?.stats?.netFlow >= 0 ? 'Toplam Birikim' : 'Toplam Açık'}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
                   <button 
                     onClick={() => {
                       setStatModalOpen(false);
                       navigate('/cash-expenses');
                     }}
-                    className="w-full py-5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-[1.5rem] font-black flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-100 group active:scale-95"
+                    className="w-full py-5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-[1.5rem] font-black text-sm sm:text-base flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-100 group active:scale-95"
                   >
                     <Wallet size={20} className="group-hover:-rotate-12 transition-transform" />
                     NAKİT HARCAMALARIMI LİSTELE
                   </button>
 
-                  <div className="p-5 bg-amber-50 rounded-3xl border-2 border-dashed border-amber-100">
+                  <div className="p-4 sm:p-5 bg-amber-50 rounded-3xl border-2 border-dashed border-amber-100">
                     <div className="flex gap-3">
                       <AlertCircle size={18} className="text-amber-500 shrink-0 mt-0.5" />
-                      <p className="text-[11px] font-bold text-amber-700 leading-relaxed italic">
+                      <p className="text-[10px] sm:text-[11px] font-bold text-amber-700 leading-relaxed italic">
                         * "Net Durum" hesaplanırken, nakit harcamalarına ek olarak kartla yaptığın tüm harcamalar dahil edilir. Bu tablo senin genel finansal sağlığını gösterir.
                       </p>
                     </div>
@@ -592,12 +594,12 @@ const DashboardPage: React.FC = () => {
                 <div className="space-y-4 animate-in fade-in">
                   {summaryData?.cards?.length > 0 ? (
                     summaryData.cards.map((c: any) => (
-                      <div key={c.id} className="flex justify-between items-center p-5 bg-slate-50 rounded-2xl border border-slate-100 hover:border-rose-200 transition-colors">
+                      <div key={c.id} className="flex justify-between items-center p-4 sm:p-5 bg-slate-50 rounded-2xl border border-slate-100 hover:border-rose-200 transition-colors">
                         <div className="flex items-center gap-3">
-                          <CreditCard size={18} className="text-slate-400" />
-                          <span className="font-black text-slate-700">{c.cardName}</span>
+                          <CreditCard size={18} className="text-slate-400 shrink-0" />
+                          <span className="font-black text-slate-700 text-sm sm:text-base">{c.cardName}</span>
                         </div>
-                        <span className="font-black text-rose-600 text-lg">₺{c.currentDebt.toLocaleString('tr-TR')}</span>
+                        <span className="font-black text-rose-600 text-base sm:text-lg shrink-0">₺{c.currentDebt.toLocaleString('tr-TR')}</span>
                       </div>
                     ))
                   ) : (
@@ -606,7 +608,7 @@ const DashboardPage: React.FC = () => {
                 </div>
               )}
 
-              {/* --- BEKLEYEN ÖDEMELER (GELECEK TAKSİTLER) DETAYI --- */}
+              {/* --- BEKLEYEN ÖDEMELER DETAYI --- */}
               {statModalType === 'pending' && (
                 <div className="space-y-4 animate-in slide-in-from-bottom-4">
                   <div className="text-center mb-2">
@@ -616,27 +618,26 @@ const DashboardPage: React.FC = () => {
                   {summaryData?.stats?.pendingDetails?.length > 0 ? (
                     <div className="space-y-3">
                       {summaryData.stats.pendingDetails.map((p: any, i: number) => (
-                        <div key={i} className="flex justify-between items-center p-5 bg-purple-50 rounded-2xl border border-purple-100 hover:bg-purple-100/50 transition-colors">
+                        <div key={i} className="flex justify-between items-center p-4 sm:p-5 bg-purple-50 rounded-2xl border border-purple-100 hover:bg-purple-100/50 transition-colors">
                           <div className="flex items-center gap-3">
-                            <div className="p-2 bg-white rounded-xl shadow-sm text-purple-500">
+                            <div className="p-2 bg-white rounded-xl shadow-sm text-purple-500 shrink-0">
                               <CreditCard size={18} />
                             </div>
-                            <span className="font-black text-slate-700">{p.cardName}</span>
+                            <span className="font-black text-slate-700 text-sm sm:text-base">{p.cardName}</span>
                           </div>
-                          <div className="text-right">
-                            <p className="text-[9px] font-black text-purple-400 uppercase tracking-widest">Taksit Toplamı</p>
-                            <p className="font-black text-purple-700 text-lg">₺{p.amount.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</p>
+                          <div className="text-right shrink-0">
+                            <p className="text-[8px] sm:text-[9px] font-black text-purple-400 uppercase tracking-widest">Taksit Toplamı</p>
+                            <p className="font-black text-purple-700 text-base sm:text-lg">₺{p.amount.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</p>
                           </div>
                         </div>
                       ))}
                       
-                      {/* TOPLAM ÖZET KUTUSU */}
-                      <div className="mt-6 p-6 bg-slate-900 rounded-[2rem] text-white flex justify-between items-center shadow-xl shadow-purple-100">
+                      <div className="mt-6 p-5 sm:p-6 bg-slate-900 rounded-[2rem] text-white flex justify-between items-center shadow-xl shadow-purple-100">
                          <div>
-                           <p className="text-[9px] font-black text-white/50 uppercase tracking-widest">Tüm Bekleyenler Toplamı</p>
-                           <p className="text-xs font-bold text-purple-200 italic">Gelecek Ayların Özet Yükü</p>
+                           <p className="text-[8px] sm:text-[9px] font-black text-white/50 uppercase tracking-widest">Tüm Bekleyenler Toplamı</p>
+                           <p className="text-[10px] sm:text-xs font-bold text-purple-200 italic">Gelecek Ayların Özet Yükü</p>
                          </div>
-                         <p className="text-2xl font-black text-white">₺{summaryData?.stats?.pendingExpenses?.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</p>
+                         <p className="text-xl sm:text-2xl font-black text-white">₺{summaryData?.stats?.pendingExpenses?.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</p>
                       </div>
                     </div>
                   ) : (
@@ -660,19 +661,19 @@ const DashboardPage: React.FC = () => {
                   <div className="space-y-3">
                     {summaryData?.cards?.filter((c: any) => c.statementDebt > 0).length > 0 ? (
                       summaryData.cards.filter((c: any) => c.statementDebt > 0).map((c: any) => (
-                        <div key={c.id} className="flex justify-between items-center p-5 bg-emerald-50 rounded-2xl border border-emerald-100 hover:bg-emerald-100/50 transition-colors">
+                        <div key={c.id} className="flex justify-between items-center p-4 sm:p-5 bg-emerald-50 rounded-2xl border border-emerald-100 hover:bg-emerald-100/50 transition-colors">
                           <div className="flex items-center gap-3">
-                            <div className="p-2 bg-white rounded-xl shadow-sm text-emerald-500">
+                            <div className="p-2 bg-white rounded-xl shadow-sm text-emerald-500 shrink-0">
                               <Receipt size={18} />
                             </div>
                             <div>
-                              <span className="font-black text-slate-700 block">{c.cardName}</span>
-                              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Son Ödeme Günü: {c.dueDay}</span>
+                              <span className="font-black text-slate-700 block text-sm sm:text-base">{c.cardName}</span>
+                              <span className="text-[8px] sm:text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Son Ödeme: {c.dueDay}. Gün</span>
                             </div>
                           </div>
-                          <div className="text-right">
-                            <p className="text-[9px] font-black text-emerald-500 uppercase tracking-widest">Borç</p>
-                            <p className="font-black text-emerald-700 text-lg">₺{c.statementDebt.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</p>
+                          <div className="text-right shrink-0">
+                            <p className="text-[8px] sm:text-[9px] font-black text-emerald-500 uppercase tracking-widest">Borç</p>
+                            <p className="font-black text-emerald-700 text-base sm:text-lg">₺{c.statementDebt.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</p>
                           </div>
                         </div>
                       ))
@@ -686,13 +687,12 @@ const DashboardPage: React.FC = () => {
                       </div>
                     )}
 
-                    {/* TOPLAM ÖZET KUTUSU */}
-                    <div className="mt-6 p-6 bg-emerald-600 rounded-[2rem] text-white flex justify-between items-center shadow-xl shadow-emerald-100">
+                    <div className="mt-6 p-5 sm:p-6 bg-emerald-600 rounded-[2rem] text-white flex justify-between items-center shadow-xl shadow-emerald-100">
                        <div>
-                         <p className="text-[9px] font-black text-emerald-100 uppercase tracking-widest">Toplam Ekstre Yükü</p>
-                         <p className="text-xs font-bold text-emerald-200 italic">Bu Ay Ödenecek</p>
+                         <p className="text-[8px] sm:text-[9px] font-black text-emerald-100 uppercase tracking-widest">Toplam Ekstre Yükü</p>
+                         <p className="text-[10px] sm:text-xs font-bold text-emerald-200 italic">Bu Ay Ödenecek</p>
                        </div>
-                       <p className="text-2xl font-black text-white">₺{summaryData?.stats?.monthlyTotal?.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</p>
+                       <p className="text-xl sm:text-2xl font-black text-white">₺{summaryData?.stats?.monthlyTotal?.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</p>
                     </div>
                   </div>
                 </div>
@@ -702,54 +702,58 @@ const DashboardPage: React.FC = () => {
         </div>
       )}
 
-      {/* --- KART ÖDEME MODALI --- */}
+      {/* --- KANKA DİKKAT: KART ÖDEME MODALI (SCROLL DÜZELTİLDİ) --- */}
       {paymentModalOpen && paymentCard && (
-        <div className="fixed inset-0 z-[250] flex items-center justify-center bg-slate-900/60 backdrop-blur-md p-4 animate-in zoom-in-95">
-          <div className="bg-white w-full max-w-sm rounded-[3rem] shadow-2xl overflow-hidden p-8 border-4 border-slate-50">
-            <div className="flex justify-between items-center mb-6">
-              <div>
-                <h3 className="text-xl font-black text-slate-800">Kart Ödemesi</h3>
-                <p className="text-xs font-bold text-slate-400 uppercase">{paymentCard.cardName}</p>
+        <div className="fixed inset-0 z-[250] flex items-end sm:items-center justify-center bg-slate-900/60 backdrop-blur-md p-2 sm:p-4 animate-in zoom-in-95">
+          <div className="bg-white w-full max-w-sm rounded-[2.5rem] sm:rounded-[3rem] shadow-2xl overflow-hidden border-4 border-slate-50 flex flex-col max-h-[90dvh]">
+            
+            <div className="p-6 sm:p-8 flex-1 overflow-y-auto custom-scrollbar">
+              <div className="flex justify-between items-center mb-6">
+                <div>
+                  <h3 className="text-lg sm:text-xl font-black text-slate-800">Kart Ödemesi</h3>
+                  <p className="text-[10px] sm:text-xs font-bold text-slate-400 uppercase">{paymentCard.cardName}</p>
+                </div>
+                <button onClick={() => setPaymentModalOpen(false)} className="text-slate-400 hover:text-rose-500"><X size={24}/></button>
               </div>
-              <button onClick={() => setPaymentModalOpen(false)} className="text-slate-400 hover:text-rose-500"><X size={24}/></button>
+              
+              <form onSubmit={handleCardPayment} className="space-y-6">
+                <div className="p-4 bg-rose-50 rounded-2xl border border-rose-100 text-center">
+                  <span className="text-[9px] sm:text-[10px] font-black text-rose-500 uppercase tracking-widest">Ödenmesi Gereken (Ekstre)</span>
+                  <p className="text-2xl sm:text-3xl font-black text-rose-600">₺{(paymentCard.statementDebt ?? paymentCard.currentDebt ?? 0).toLocaleString()}</p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Ödenecek Tutar</label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-blue-400">₺</span>
+                    <input 
+                      type="number" step="0.01" required
+                      value={paymentAmount}
+                      onChange={(e) => { setPaymentAmount(e.target.value); setIsPayingFull(false); }}
+                      className="w-full p-4 pl-10 bg-slate-50 border-2 border-slate-100 focus:border-blue-500 rounded-2xl font-black text-lg sm:text-xl outline-none text-slate-800"
+                      placeholder="0.00"
+                    />
+                  </div>
+                  <div className="flex justify-end mt-2">
+                    <button 
+                      type="button"
+                      onClick={() => {
+                        setPaymentAmount((paymentCard.statementDebt ?? paymentCard.currentDebt ?? 0).toString());
+                        setIsPayingFull(true);
+                      }}
+                      className={`text-[9px] sm:text-[10px] font-black px-3 py-1.5 rounded-lg transition-colors ${isPayingFull ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
+                    >
+                      EKSTREYİ ÖDE
+                    </button>
+                  </div>
+                </div>
+
+                <button type="submit" className="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl font-black text-base sm:text-lg shadow-lg active:scale-95 transition-all">
+                  ÖDEMEYİ ONAYLA
+                </button>
+              </form>
             </div>
             
-            <form onSubmit={handleCardPayment} className="space-y-6">
-              <div className="p-4 bg-rose-50 rounded-2xl border border-rose-100 text-center">
-                <span className="text-[10px] font-black text-rose-500 uppercase tracking-widest">Ödenmesi Gereken (Ekstre)</span>
-                <p className="text-3xl font-black text-rose-600">₺{(paymentCard.statementDebt ?? paymentCard.currentDebt ?? 0).toLocaleString()}</p>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Ödenecek Tutar</label>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-blue-400">₺</span>
-                  <input 
-                    type="number" step="0.01" required
-                    value={paymentAmount}
-                    onChange={(e) => { setPaymentAmount(e.target.value); setIsPayingFull(false); }}
-                    className="w-full p-4 pl-10 bg-slate-50 border-2 border-slate-100 focus:border-blue-500 rounded-2xl font-black text-xl outline-none text-slate-800"
-                    placeholder="0.00"
-                  />
-                </div>
-                <div className="flex justify-end mt-2">
-                  <button 
-                    type="button"
-                    onClick={() => {
-                      setPaymentAmount((paymentCard.statementDebt ?? paymentCard.currentDebt ?? 0).toString());
-                      setIsPayingFull(true);
-                    }}
-                    className={`text-[10px] font-black px-3 py-1 rounded-lg transition-colors ${isPayingFull ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
-                  >
-                    EKSTREYİ ÖDE
-                  </button>
-                </div>
-              </div>
-
-              <button type="submit" className="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl font-black text-lg shadow-lg active:scale-95 transition-all">
-                ÖDEMEYİ ONAYLA
-              </button>
-            </form>
           </div>
         </div>
       )}
@@ -769,7 +773,6 @@ const DashboardPage: React.FC = () => {
       <AddCardModal isOpen={isAddCardOpen} onClose={() => setIsAddCardOpen(false)} onSuccess={fetchData} />
       <EditCardModal isOpen={isEditCardOpen} onClose={() => setIsEditCardOpen(false)} card={selectedCard} onSuccess={fetchData} />
       <TransactionHistoryModal isOpen={isHistoryOpen} onClose={() => setIsHistoryOpen(false)} type={historyType} onSuccess={fetchData} />
-      <IncomeDetailsModal isOpen={isIncomeDetailsOpen} onClose={() => setIsIncomeDetailsOpen(false)} />
       <IncomeDetailsModal isOpen={isIncomeDetailsOpen} onClose={() => setIsIncomeDetailsOpen(false)} onRefresh={fetchData}/>
 
     </div>
