@@ -87,7 +87,7 @@ const CardDetailsPage = () => {
 
   const saveEdit = async (item: any) => {
   try {
-    // KANKA: Tutar ve Kategori temizliği
+    
     const finalAmount = parseFloat(editAmount.toString().replace(',', '.'));
     const finalCategoryId = parseInt(editCategoryId);
 
@@ -234,7 +234,7 @@ const CardDetailsPage = () => {
                           onChange={(e) => setEditCategoryId(e.target.value)}
                           className="w-full p-3 rounded-xl border-2 border-blue-100 font-bold text-xs outline-none focus:border-blue-400 bg-white"
                         >
-                          <option value="">Kategori</option>
+                          
                           {expenseCategories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
                         </select>
                       </td>
