@@ -79,29 +79,40 @@ const CardDetailsPage = () => {
   };
 
   const startEdit = (item: any) => {
-    setEditId(item.id);
-    setEditAmount(item.amount.toString());
-    setEditDesc(item.description || '');
-    setEditCategoryId(item.categoryId?.toString() || '');
-  };
+  setEditId(item.id);
+  setEditAmount(item.amount.toString());
+  setEditDesc(item.description || '');
+  setEditCategoryId(item.categoryId ? item.categoryId.toString() : '');
+};
 
   const saveEdit = async (item: any) => {
-    try {
-      await axiosInstance.put(`/api/Transaction/expense/${item.id}`, {
-        amount: parseFloat(editAmount),
-        description: editDesc,
-        categoryId: parseInt(editCategoryId),
-        creditCardId: parseInt(id!),
-        date: item.rawDate,
-        installmentCount: item.installmentCount || 1,
-        isRecurring: item.isRecurring || false
-      });
-      setEditId(null);
-      fetchStatement();
-    } catch (error) {
-      alert("Güncelleme sırasında hata oluştu.");
-    }
-  };
+  try {
+    // KANKA: Tutar ve Kategori temizliği
+    const finalAmount = parseFloat(editAmount.toString().replace(',', '.'));
+    const finalCategoryId = parseInt(editCategoryId);
+
+    if (isNaN(finalAmount)) return alert("Geçerli bir tutar gir kanka.");
+    if (isNaN(finalCategoryId)) return alert("Kategori seçimi hatalı.");
+
+    const payload = {
+      amount: finalAmount,
+      description: editDesc.trim(),
+      categoryId: finalCategoryId,
+      creditCardId: parseInt(id!),
+      date: item.rawDate, // Backend'in beklediği tarih formatı
+      installmentCount: item.installmentCount || 1,
+      isRecurring: item.isRecurring || false
+    };
+
+    await axiosInstance.put(`/api/Transaction/expense/${item.id}`, payload);
+    
+    setEditId(null);
+    fetchStatement(); // Listeyi tazele
+  } catch (error) {
+    console.error("Güncelleme hatası:", error);
+    alert("Güncelleme sırasında hata oluştu. Tutar formatını kontrol et kanka.");
+  }
+};
 
   const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
   const years = [2024, 2025, 2026, 2027];

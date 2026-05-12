@@ -626,7 +626,7 @@ const DashboardPage: React.FC = () => {
                             <span className="font-black text-slate-700 text-sm sm:text-base">{p.cardName}</span>
                           </div>
                           <div className="text-right shrink-0">
-                            <p className="text-[8px] sm:text-[9px] font-black text-purple-400 uppercase tracking-widest">Taksit Toplamı</p>
+                            <p className="text-[8px] sm:text-[9px] font-black text-purple-400 uppercase tracking-widest">Harcama Toplamı</p>
                             <p className="font-black text-purple-700 text-base sm:text-lg">₺{p.amount.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</p>
                           </div>
                         </div>

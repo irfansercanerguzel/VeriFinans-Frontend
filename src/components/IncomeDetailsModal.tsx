@@ -48,19 +48,20 @@ const IncomeDetailsModal: React.FC<IncomeDetailsModalProps> = ({ isOpen, onClose
     }
   }, [isOpen, selectedMonth, selectedYear]);
 
-  // SİLME İŞLEMİ
-  const handleDelete = async (id: number) => {
-    if (!window.confirm("Bu gelir kaydını silmek istediğine emin misin?")) return;
-    try {
-      await axiosInstance.delete(`/Transaction/income/${id}`);
-      setIncomes(prev => prev.filter(item => item.id !== id));
-      
-      // KANKA: Silme başarılıysa ana sayfadaki verileri de tazeleyelim
-      if (onRefresh) onRefresh(); 
-    } catch (error) {
-      alert("Silme işlemi başarısız.");
-    }
-  };
+  
+const handleDelete = async (id: number) => {
+  if (!window.confirm("Bu gelir kaydını silmek istediğine emin misin?")) return;
+  try {
+    await axiosInstance.delete(`/api/Transaction/income/${id}`); 
+    
+    setIncomes(prev => prev.filter(item => item.id !== id));
+    
+    if (onRefresh) onRefresh(); 
+  } catch (error) {
+    console.error("Silme hatası:", error);
+    alert("Silme işlemi başarısız. Route hatası olabilir.");
+  }
+};
 
   // DÜZENLEME FORMUNU AÇ
   const startEdit = (item: any) => {
